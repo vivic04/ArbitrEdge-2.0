@@ -3,6 +3,7 @@ from ibapi.client import EClient
 from ibapi.contract import Contract
 import threading
 import time
+from ibapi.order import *
 
 class IBApi(EWrapper, EClient):
     def __init__(self):
@@ -30,6 +31,26 @@ class Bot:
         
         # Request real-time bar data
         self.ib.reqRealTimeBars(0, contract, 5, "TRADES", 1, [])
+
+        #Submitting Order
+        order = Order()
+        order.orderType = "MKT"
+        order.action = "BUY"
+        order.totalQuantity = 100
+        quantity = 1
+        order.totalQuantity = quantity
+
+        #contract object
+        contract = Contract()
+        contract.symbol = symbol
+        contract.secType = "STK"
+        contract.exchange = "SMART"
+        contract.currency = "USD"
+        contract.primaryExchange = "ISLAND"
+
+        #Place Order
+        #Order ID needs to be unique for each order
+        self.ib.placeOrder(2, contract, order)
 
     def run_loop(self):
         self.ib.run()
